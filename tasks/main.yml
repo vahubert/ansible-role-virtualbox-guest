@@ -52,7 +52,7 @@
     when: not file_path.stat.exists and not CD_path.stat.exists
 
   - name: Re-check if the ISO file is present on the host
-    stat: path=/root/VBoxGuestAdditions.iso
+    stat: path="{{ virtualbox_iso }}"
     register: file_path
     ignore_errors: yes
 
@@ -100,7 +100,7 @@
     shell: rpm -qa > /tmp/before.txt
     when: ansible_os_family == 'RedHat' and ( virtualbox_keep is undefined or not virtualbox_keep )
 
-  - block: 
+  - block:
     - name: Install EPEL repo.
       yum:
         name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm
@@ -109,7 +109,7 @@
       rpm_key:
         key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
         state: present
-    when: ansible_os_family == 'RedHat' 
+    when: ansible_os_family == 'RedHat'
 
   - name: Install necessary packages for compiling
     package:
@@ -135,13 +135,13 @@
   - name: Install latest kernel and headers for CentOSes
     yum:
       name: "{{ item }}"
-      state: latest # needed latest for dmks to find matching header 
+      state: latest # needed latest for dmks to find matching header
       update_cache: yes
     with_items:
       - kernel
       - kernel-headers-{{ kernel.stdout }}
       - kernel-devel
-    when: kernel is defined and ansible_os_family == 'RedHat' and kernel.stdout is defined 
+    when: kernel is defined and ansible_os_family == 'RedHat' and kernel.stdout is defined
 
   - name: Check which packages were installed for Debians
     shell: dpkg-query -l > /tmp/after.txt
@@ -163,12 +163,12 @@
 
   - name: Build and install VBoxGuestAdditions from file for Debians
     shell: /bin/bash /media/cdrom/VBoxLinuxAdditions.run --nox11
-    when: ( virtualbox_x11 is undefined or not virtualbox_x11 ) and ansible_os_family == 'Debian' 
+    when: ( virtualbox_x11 is undefined or not virtualbox_x11 ) and ansible_os_family == 'Debian'
     ignore_errors: yes
 
   - name: Build and install VBoxGuestAdditions from file for CentOSes
     shell: /bin/bash  /media/cdrom/VBoxLinuxAdditions.run --nox11
-    when: ( virtualbox_x11 is undefined or not virtualbox_x11 ) and ansible_os_family == 'RedHat' 
+    when: ( virtualbox_x11 is undefined or not virtualbox_x11 ) and ansible_os_family == 'RedHat'
     ignore_errors: yes
 
   - name: Unmount VBoxGuestAdditions

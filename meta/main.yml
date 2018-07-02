@@ -1,8 +1,8 @@
 ---
 galaxy_info:
-  author: Peter Mosmans
+  author: Valentin HUBERT
   description: Builds and installs VirtualBox guest additions - either from ISO file or downloads the necessary files.
-  company: Go Forward
+  company: NGI HEALTHCRE IT
   license: GPLv3
   min_ansible_version: 2.1
   platforms:
