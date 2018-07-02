@@ -138,6 +138,12 @@
       state=present
     when: kernel is defined and kernel.stdout is defined and ansible_os_family == 'Debian'
 
+  - name: Install kernel headers for Debians
+    yum:
+      name=libselinux-python
+    when: ansible_os_family == 'RedHat'
+
+
   - name: Install latest kernel and headers for CentOSes
     yum:
       name: "{{ item }}"
