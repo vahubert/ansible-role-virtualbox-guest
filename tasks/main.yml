@@ -57,9 +57,12 @@
     # ignore_errors: yes
 
   - debug:
+<<<<<<< HEAD
       msg: "{{ virtualbox_iso }}"
 
   - debug:
+=======
+>>>>>>> 38aea8c293a931aede9d405cb843acdd5b118dfa
       msg: "{{ file_path }}"
 
   - name: Fail if CD or ISO file is still not present on the host
