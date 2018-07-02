@@ -79,7 +79,7 @@
       name=/media/cdrom
       src={{ ISO_path }}
       fstype=iso9660
-      opts=noauto
+      opts=noauto,loop
       state=mounted
     register: mounted_ISO
     when: mount_path is defined and mount_path.stdout == ""
