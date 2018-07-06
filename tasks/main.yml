@@ -111,6 +111,7 @@
       yum:
         name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm
         state: latest #present
+        validate_certs: no
     - name: Import EPEL GPG key.
       rpm_key:
         key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
@@ -138,7 +139,7 @@
       state=present
     when: kernel is defined and kernel.stdout is defined and ansible_os_family == 'Debian'
 
-  - name: Install kernel headers for Debians
+  - name: Install libselinux-python for RedHat
     yum:
       name=libselinux-python
     when: ansible_os_family == 'RedHat'
